@@ -472,7 +472,7 @@ int Ramdisk(std::string version) {
   std::cout << RED << Time() << RESET << " Done!" << std::endl;
   sleep(2);
   system("irecovery -c \"bootx\"");
-  sleep(30)
+  sleep(30);
   system("iproxy 2222 44");
 
   std::cout << "The device should now be booting in to the restoreramdisk. Iproxy is on 2222 44 and open a new tab and type 'ssh root@localhost -p 2222' :)" << std::endl;
