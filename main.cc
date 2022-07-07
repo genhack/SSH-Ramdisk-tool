@@ -244,7 +244,7 @@ std::cout << "[i] Would you like to boot the ramdisk now? y/n: ";
 std::cin >> input2;
 if(input2 == "y"){
   load::Ramdisk(version);
-  load::Pwndevice()
+  load::Pwndevice();
 }
 else {
   return 0;
