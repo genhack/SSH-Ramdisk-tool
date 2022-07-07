@@ -6,7 +6,7 @@
 int main(int argc, char **argv){
 
  if(argc < 2){
-  std::cout << "Example: " << argv[0] << " -d iPad7,5 -i 14.5.1 -b j71bap -s bla/blob.shsh2" << std::endl;
+  std::cout << "Example: " << argv[0] << " -d iPad7,5 -i 14.5.1 -b j71bap -s blob.shsh2" << std::endl;
    return -1;
  }
  while(--argc > 0){
@@ -72,10 +72,16 @@ else {
 
 std::cout << RED << load::Time() << RESET << " [2] Converting blob to IM4M" << std::endl;
 sleep(1);
+//Blobs in working folder;
+system((std::string("cp ") + blob + " WD_" + identifier + "_" + version + "/" ).c_str());
+sleep(1);
+chdir((std::string("WD_") + identifier + "_" + version).c_str());
+//IM$M;
 system((std::string("img4tool -e -s ") + blob + " -m IM4M").c_str());
 std::cout << "[!] Done!" << std::endl << std::endl;
 
 std::cout << RED << load::Time() << RESET << " [3] Decrypting " << load::ipsw.ramdisk << "..." << std::endl;
+//Ramdisk dec;
 system((std::string("img4 -i ") + load::ipsw.ramdisk + " -o ramdisk.dmg").c_str());
 std::cout << "[i] Done!" << std::endl << std::endl;
 sleep(1);
@@ -85,13 +91,15 @@ std::cout << load::iBSSIV() << '\n' << load::iBSSKEY() << '\n' << load::iBECIV()
 std::cout << RED << " [i] Beginning to patch and sign the components.." << RESET << std::endl << std::endl;
 
 std::cout << RED << load::Time() << RESET << " [4] Decrypting & Patching iBSS.." << RESET << std::endl;
+//iBSS Time;
 system((std::string("img4 -i ") + load::ibss.name + " -o ibss.raw -k " + load::iBSSIV() + load::iBSSKEY()).c_str());
 system("kairos ibss.raw ibss.pwn");
 system("img4 -i ibss.pwn -o iBSS.img4 -M IM4M -A -T ibss");
 std::cout << "[!] Done!" << std::endl << std::endl;
 sleep(1);
 
-std::cout << RED << load::Time() << RESET << " [5] Decrypting & Patching iBEC.." << RESET << std::endl; // 'RED' and 'RESET' s definition is located in "Needs.hpp"
+std::cout << RED << load::Time() << RESET << " [5] Decrypting & Patching iBEC.." << RESET << std::endl; 
+//iBec Time;
 system((std::string("img4 -i ") + load::ibec.name + " -o ibec.raw -k " + load::iBECIV() + load::iBECKEY()).c_str());
 system("kairos ibec.raw ibec.pwn -b \"rd=md0 -restore -v\"");
 system("img4 -i ibec.pwn -o iBEC.img4 -M IM4M -A -T ibec");
@@ -99,11 +107,13 @@ std::cout << "[!] Done!" << std::endl << std::endl;
 sleep(1);
 
 std::cout << RED << load::Time() << RESET << " [6] Decrypting & Patching kernel.." << RESET << std::endl;
+//Kernel time; 
 system((std::string("img4 -i ") + load::ipsw.Kernel + " -o kernel.raw").c_str());
 load::check(version); // if the version is above 14.8 it will not only patch amfi
 sleep(1);
 
 std::cout << RED << load::Time() << RESET << " [7] Converting DeviceTree to rdtr.." << RESET << std::endl; // rdtr == restore devicetree
+//DeviceTree;
 system((std::string("img4 -i ") + load::ipsw.Devicetree + " -o DeviceTree.img4 -M IM4M -T rdtr").c_str());
 std::cout << "[!] Done!" << std::endl << std::endl;
 sleep(1);
@@ -133,7 +143,7 @@ load::mount();
 chdir("..");
 system((std::string("xcrun -sdk iphoneos clang++ -arch arm64 ") + "Stuff/restored_external.cc -o restored_external" + " -std=c++11 -Wno-write-strings").c_str());
 system("ldid2 -S restored_external");
-system((std::string("mv -v ") + load::ipsw.rdpath + "/usr/local/bin/restored_external " + load::ipsw.rdpath + "/usr/local/bin/restored_external_original").c_str());
+system((std::string("mv -v ") + load::ipsw.rdpath + "/usr/local/bin/restored_external " + load::ipsw.rdpath + "/usr/local/bin/restored_external_bak").c_str());
 system((std::string("mv -v restored_external ") + load::ipsw.rdpath + "/usr/local/bin/restored_external").c_str());
 chdir((std::string("WD_") + identifier + "_" + version).c_str());
 
