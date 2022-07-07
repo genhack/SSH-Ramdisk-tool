@@ -77,7 +77,7 @@ system((std::string("cp ") + blob + " WD_" + identifier + "_" + version + "/" ).
 sleep(1);
 chdir((std::string("WD_") + identifier + "_" + version).c_str());
 //IM$M;
-system((std::string("img4tool -e -s ") + blob + " -m IM4M").c_str());
+system((std::string("img4 -i ") + blob + " -m IM4M ").c_str());
 std::cout << "[!] Done!" << std::endl << std::endl;
 
 std::cout << RED << load::Time() << RESET << " [3] Decrypting " << load::ipsw.ramdisk << "..." << std::endl;
