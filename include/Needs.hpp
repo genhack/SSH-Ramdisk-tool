@@ -63,8 +63,11 @@ namespace Apple {
       chdir("..");
       system("rm -rf kairos");
     }
-    std::ifstream irecv("/usr/local/Cellar/libirecovery/1.0.0/bin/irecovery");
-    std::ifstream irecovery("/usr/local/bin/irecovery");
+    //std::ifstream irecv("/usr/local/Cellar/libirecovery/1.0.0/bin/irecovery");
+    //std::ifstream irecovery("/usr/local/bin/irecovery");
+    //M1 Fix
+    std::ifstream irecv("/opt/homebrew/Cellar/libirecovery/1.0.0/bin/irecovery");
+    std::ifstream irecovery("/opt/homebrew/bin/irecovery");
     if(!irecv){
       std::cerr << "[!] Irecovery not found. Installing it for you.." << '\n';
       system("brew install libirecovery");
@@ -82,7 +85,8 @@ namespace Apple {
       chdir("../../../..");
       system("chmod +x /usr/local/bin/pzb && rm -rf buildroot_macos-latest.zip && rm -rf buildroot_macos-latest");
     }
-    std::ifstream dropbear("/usr/local/bin/dropbearkey");
+    //M1 FIX
+    std::ifstream dropbear("/opt/homebrew/bin/dropbearkey");
     if(!dropbear) {
       std::cout << "[i] Dropbear not found. Installing it for you.." << std::endl;
       system("brew install dropbear");
