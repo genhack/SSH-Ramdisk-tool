@@ -472,8 +472,10 @@ int Ramdisk(std::string version) {
   std::cout << RED << Time() << RESET << " Done!" << std::endl;
   sleep(2);
   system("irecovery -c \"bootx\"");
+  sleep(30)
+  system("iproxy 2222 44");
 
-  std::cout << "The device should now be booting in to the restoreramdisk. Now just run iproxy 2222 44 and open a new tab and type 'ssh root@localhost -p 2222' :)" << std::endl;
+  std::cout << "The device should now be booting in to the restoreramdisk. Iproxy is on 2222 44 and open a new tab and type 'ssh root@localhost -p 2222' :)" << std::endl;
   return 0;
   }
 
@@ -507,30 +509,21 @@ std::cout << "[?] What is your cpid? ";
 std::cin >> chipid;
 
 while(1) {
-  if(chipid == "A10" || chipid == "0x8010" || chipid == "t8010" || chipid == "A10X" || chipid == "0x8011" || chipid == "t8011" || chipid == "S5L8960" || chipid == "A7" || chipid == "S5L8965"){
-    system("git clone https://github.com/MatthewPierson/ipwndfu_public");
-    chdir("ipwndfu_public");
+  if(chipid == "A11" || chipid == "t8015" || chipid == "0x8015" || chipid == "A10" || chipid == "0x8010" || chipid == "t8010" || chipid == "A10X" || chipid == "0x8011" || chipid == "t8011" || chipid == "S5L8960" || chipid == "A7" || chipid == "S5L8965"){
+    system("git clone https://github.com/0x7ff/gaster.git");
+    chdir("gaster");
+    system("make");
     std::cout << "[i] Putting device in pwned DFU Mode..." << '\n';
-    system("sudo ./ipwndfu -p");
-    sleep(2);
-    std::cout << "[i] Removing signature checks..." << '\n';
-    system("sudo python rmsigchks.py");
-    // first EMBEDDED_CC=clang EMBEDDED_LDFLAGS=-fuse-ld=/usr/bin/ld64 STRIP=cctools-strip make all
-    //then: / make
-  //  export CFLAGS='-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk' for pongo
-    break; // https://parcility.co/dl/halo_michaels-cydia/com.michael.bindfs/0.1.4
+    system("./gaster pwn ");
+    sleep(5);
+    std::cout << "[i] All done..." << '\n';
+    break; 
   }
-  else if(chipid == "A11" || chipid == "t8015" || chipid == "0x8015") {
-    system("git clone https://github.com/m1stadev/ipwndfu-8015");
-    chdir("ipwndfu-8015");
-    std::cout << "[i] Putting device in pwned DFU Mode..." << '\n';
-    system("sudo ./ipwndfu -p");
-    sleep(2);
-    std::cout << "[i] Removing signature checks..." << '\n';
-    system("sudo ./ipwndfu --patch");
+  else if() {
+    if(chipid == "A5" || chipid == "A5"){
+    std::cout << "[i] Wrong tool" << '\n';
     break;
-  } // brew install libgcrypt && cython && gnutls first make libimobiledevice-glue & libplist configure with --disable-openssl
-  // https://github.com/libimobiledevice/libimobiledevice/releases/download/1.3.0/libimobiledevice-1.3.0.tar.bz2
+  } 
  }
 }
 };
