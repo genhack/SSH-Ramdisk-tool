@@ -519,10 +519,9 @@ while(1) {
     std::cout << "[i] All done..." << '\n';
     break; 
   }
-  else if() {
-    if(chipid == "A5" || chipid == "A5"){
-    std::cout << "[i] Wrong tool" << '\n';
-    break;
+  else if(chipid == A5 || chipid == "0x8940" || chipid == "0x8945") {
+      std::cout << "Wrong model || not Support" << '\n';
+      break;
   } 
  }
 }
